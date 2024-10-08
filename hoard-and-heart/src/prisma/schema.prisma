@@ -12,3 +12,31 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+model User{
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  email    String     @unique
+  name     String?
+  password String
+  logger   AniLogger? 
+}
+
+model AniLogger{
+  id     String       @id @default(auto()) @map("_id") @db.ObjectId
+  userID String       @unique @db.ObjectId
+  user   User         @relation(fields:[userID], references:[id])
+  recs   AniRecSet[] 
+}
+
+model AniRecSet{
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  emotion     String
+  created     DateTime  @default(now())
+  AniLoggerID String    @unique @db.ObjectId
+  AniLogger   AniLogger @relation(fields:[AniLoggerID], references:[id])
+  AnimeList   Json[]
+}
+
+
+
+
