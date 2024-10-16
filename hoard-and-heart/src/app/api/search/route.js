@@ -1,7 +1,6 @@
 import { Pinecone } from "@pinecone-database/pinecone";
 import { NextResponse } from "next/server";
 import {prisma} from "../../../prisma/prisma"
-// const pc = new Pinecone({apiKey: 'PINECONE_API'})
 
 const pc = new Pinecone({apiKey:process.env.PINECONE_API})
 const index = pc.index("animesearch")
@@ -39,7 +38,7 @@ export async function POST(req) {
             }
         }
 
-        console.log(`show id's ${show_ids}`)
+        //console.log(`show id's ${show_ids}`)
         const show_data = await prisma.animeData.findMany({
             where:{
                 id:{
@@ -48,7 +47,6 @@ export async function POST(req) {
             }
         })
         //console.log(`show data: ${show_data}`)
-
 
         return new Response(JSON.stringify({ "animes": show_data}), {
             status: 200,
@@ -62,13 +60,4 @@ export async function POST(req) {
             { status: 500, headers: { 'Content-Type': 'application/json' } }
         );
     }
-
-    
-
-
-    // res.status(200).json({ message: 'Hello from Next.js!' })
-    // return new Response(JSON.stringify({ message: 'Hello from Next.js!'}), {
-    //     status: 200,
-    //     headers: { 'Content-Type': 'application/json' },
-    //   });
   }
