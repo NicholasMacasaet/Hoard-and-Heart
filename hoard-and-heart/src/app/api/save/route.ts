@@ -41,6 +41,21 @@ export async function POST(request:NextRequest){
         }
         else{
 
+            const rec_set_count = await prisma.aniRecSet.count({
+                where:{
+                    aniLoggerId: first_save.id
+                }
+            })
+
+            console.log(`total rec sets saved : ${rec_set_count}`)
+            if( rec_set_count ===10){
+                return new NextResponse("You've reached your maximum amount of recommendation sets, please delete one before adding this one", {
+                    status:403
+                })
+
+            }
+
+
             const new_set = await prisma.aniRecSet.create({
                 data:{
                     emotion,
@@ -48,7 +63,7 @@ export async function POST(request:NextRequest){
                     animeList:animes
                 }
             })
-            return new NextResponse("Recommendation set saved successfully",{
+            return new NextResponse(`Recommendation set saved successfully, total sets saved:${rec_set_count+1}`,{
                 status:201
             })
 
