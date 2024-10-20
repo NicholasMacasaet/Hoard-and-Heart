@@ -8,16 +8,19 @@ import bcrypt from "bcryptjs";
 
 export async function POST(request:NextRequest){
 
-    const {name, email, password} = await request.json()
+    const {name, email, password, profile_picture} = await request.json()
 
+    //https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg
+    //default pfp link
     const encrypt_pass = await bcrypt.hash(password,17)
-
 
     const newUser = {
         email,
         name,
         password: encrypt_pass,
+        profile_picture,
     }
+
 
     try{
         const user_exists = await prisma.user.findFirst({

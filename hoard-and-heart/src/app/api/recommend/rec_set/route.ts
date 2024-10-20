@@ -60,7 +60,7 @@ export async function POST(request:NextRequest){
                 data:{
                     emotion,
                     aniLoggerId:first_save.id,
-                    animeList:animes
+                    animeList:animes,
                 }
             })
 
