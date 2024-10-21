@@ -90,21 +90,47 @@ export async function DELETE(request:NextRequest) {
                 id:id
             }
         })
-        let deletion_id = to_delete.id
+       
+
         if(!to_delete){
             //reasouce doesnt exist
-            return new NextResponse("Invalid id",{
+            return new NextResponse("Invalid id, does not exist",{
                 status:404
             })
         }else{
-            await prisma.aniRecSet.delete({
+            let deletion_id = to_delete.id
+            const token = request.cookies.get('token')?.value
+            const decodedToken: any = jwt.verify(token, process.env.TOKEN_SECRET!);
+            console.log("ree")
+
+            //check if the user owns this rec set 
+            const logger = await prisma.aniLogger.findFirst({
                 where:{
-                    id:to_delete.id
+                    id:to_delete.aniLoggerId
                 }
             })
-            return new NextResponse(`Recommendation set ${deletion_id} successfully deleted`,{
-                status:201
+            const curr_user = await prisma.user.findFirst({
+                where:{
+                    id: decodedToken.id
+                }
             })
+
+            if(curr_user.id !== logger.userId){
+                return new NextResponse("Error: You cannot delete another user's recommendation set",{
+                    status:403
+                })
+            }
+            else{
+                await prisma.aniRecSet.delete({
+                    where:{
+                        id:to_delete.id
+                    }
+                })
+                return new NextResponse(`Recommendation set ${deletion_id} successfully deleted`,{
+                    status:200
+                })
+            }
+
         }
 
 

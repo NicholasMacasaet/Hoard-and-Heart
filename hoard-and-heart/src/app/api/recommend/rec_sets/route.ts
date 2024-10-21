@@ -13,6 +13,14 @@ export async function GET(request:NextRequest) {
                 userId:decodedToken.id
             }
         })
+
+        if(!user_logger){
+            return NextResponse.json({
+                message:"You have not saved any recommendation sets, please add one"
+            },{
+                status:500
+            })
+        }
         const all_rec_sets = await prisma.aniRecSet.findMany({
             where:{
                 aniLoggerId:user_logger.id

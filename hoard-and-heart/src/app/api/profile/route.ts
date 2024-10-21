@@ -89,6 +89,18 @@ export async function PATCH(request:NextResponse) {
                 update_data['password'] = encrypt_pass
             }
         }
+
+
+        if(new_pfp){
+            if(curr_user.profile_picture ===new_pfp){
+                return new NextResponse("Profile picture is the same as previous",{
+                    status:400
+                })
+            }
+            else{
+                update_data['profile_picture'] = new_pfp
+            }
+        }
         await prisma.user.update({
             where:{
                 id:curr_user.id
@@ -119,9 +131,58 @@ export async function DELETE(request:NextResponse) {
     const token = request.cookies.get('token')?.value
     const decodedToken: any = jwt.verify(token, process.env.TOKEN_SECRET!);
     try {
-        
+
+        //first retreive a user's information as well as their 
+        const curr_user = await prisma.user.findFirst({
+            where:{
+                id:decodedToken.id
+            }
+        })
+        // await prisma.user.delete({
+        //     where:{
+        //         id:curr_user.id
+        //     }
+        // })
+        const user_logger = await prisma.aniLogger.findFirst({
+            where:{
+                userId:curr_user.id
+            }
+        })
+        const user_rec_sets = await prisma.aniRecSet.findMany({
+            where:{
+                aniLoggerId:user_logger.id
+            }
+        })
+
+        if(user_rec_sets){
+            await prisma.aniRecSet.deleteMany({
+                where:{
+                    id:{
+                        in: user_rec_sets.map(record => record.id)
+                    }
+                }
+            })
+        }
+        if(user_logger){
+            await prisma.aniLogger.delete({
+                where:{
+                    id:user_logger.id
+                }
+            })
+        }
+
+        await prisma.user.delete({
+            where:{
+                id:curr_user.id
+            }
+        })
+        return new NextResponse("User successfully deleted, we'll see you next time!",{
+            status:200
+        })
     } catch (error) {
-        
+        return new NextResponse(error,{
+            status:500
+        })
     }
     
 }

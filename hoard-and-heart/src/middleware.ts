@@ -2,7 +2,7 @@ import { NextResponse, NextRequest} from "next/server";
 import jwt from "jsonwebtoken"
 const protected_page_routes=['/dashboard', '/profile']
 
-const protected_api_routes = ['api/save']
+const protected_api_routes = ['api/save','api/recommend','api/profile']
 
 export default async function middleware(request: NextRequest){
     //get current user 
