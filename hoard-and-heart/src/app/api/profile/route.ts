@@ -24,6 +24,8 @@ export async function GET(request:NextResponse) {
             "profile_picture": profile_picture
         }
 
+        console.log("Found user info")
+
         return NextResponse.json({
             message:"User information successfully retrieved",
             user_info:user_info

@@ -12,18 +12,18 @@ export default async function middleware(request: NextRequest){
     const homepage = new URL('/', request.url)
 
 
-    console.log("middleware running")
+    // console.log("middleware running")
 
     if(!token){
-        console.log("no token")
-        console.log(`checking route: ${request.url}`)
-        console.log(`is protected api: ${isProcdApi}`)
+        // console.log("no token")
+        // console.log(`checking route: ${request.url}`)
+        // console.log(`is protected api: ${isProcdApi}`)
         if(isProcdApi){
             return new NextResponse("Unauthorized: No token provided",{
                 status:401
             })
         }
-        console.log(`is protected page: ${isProcdPage}`)
+        // console.log(`is protected page: ${isProcdPage}`)
         if(isProcdPage){
             return NextResponse.redirect(homepage)
         }
