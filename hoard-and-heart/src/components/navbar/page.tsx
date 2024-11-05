@@ -34,7 +34,7 @@ export default function Navbar(){
     
     return(
         <>
-            <header className="flex flex-row items-center justify-between border-white border-2 h-10 w-screen">
+            <header className="flex flex-row items-center justify-between h-10 w-screen rounded custom-navbar p-2 font-[family-name:var(--font-jb-mono)]">
                 <div>
                     {/* {userData ?(<Logout/>):(<Login/>)} */}
                    <AuthButton token={token}></AuthButton>

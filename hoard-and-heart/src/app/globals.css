@@ -36,6 +36,44 @@ body {
   font-family: Arial, Helvetica, sans-serif, JetBrainsMono;
 }
 
+.custom-navbar{
+  border-bottom: var(--gold);
+  border-style:groove;
+  border-radius: 2;
+}
+
+.login-form-item{
+  background-color: var(--vibrant-green);
+  color:var(--eerie-black)
+}
+
+
+
+.login-form-item::placeholder{
+  font-size: small;
+  opacity: .75;
+  color: var(--eerie-black);
+}
+
+.grid-container{
+  grid-template-columns: 31% 75%;
+}
+
+.input-container{
+  border: var(--gold);
+  border-style:groove;
+  border-radius: 2;
+}
+
+.login-button{
+  background: var(--vibrant-green);
+  height: 30px;
+  width: 75px;
+}
+
+.login-button > p{
+  color:var(--night)
+}
 ol{
   font-family: JetBrainsMono;
 }

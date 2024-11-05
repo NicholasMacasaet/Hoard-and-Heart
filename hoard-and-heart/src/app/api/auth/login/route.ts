@@ -2,6 +2,7 @@ import {NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "../../../../prisma/prisma";
 import jwt from "jsonwebtoken"
+import { Redirect } from "next";
 // import { signIn } from '@/auth'
 
 
@@ -38,7 +39,12 @@ export async function POST(request:NextRequest) {
             httpOnly:true,
             path:"/"
         })
+
+
+
         return response
+
+        
 
     }catch(error){
         return new NextResponse(error.message,{
