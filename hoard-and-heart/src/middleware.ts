@@ -1,7 +1,5 @@
 import { NextResponse, NextRequest} from "next/server";
-import jwt from "jsonwebtoken"
 const protected_page_routes=['/dashboard', '/profile']
-
 const protected_api_routes = ['api/save','api/recommend','api/profile']
 
 export default async function middleware(request: NextRequest){
@@ -27,6 +25,9 @@ export default async function middleware(request: NextRequest){
         if(isProcdPage){
             return NextResponse.redirect(homepage)
         }
+    }
+    else{
+        console.log("we have a cookie/token")
     }
     // }else{
     //     //we have a valid token

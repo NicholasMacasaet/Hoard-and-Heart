@@ -1,6 +1,8 @@
+
 import Image from "next/image";
 import Search from "../components/search/page";
 import Navbar from "../components/navbar/page";
+
 export default function Home() {
   // this will be our root page with the following components
   // -search bar to display all anime rec
@@ -12,7 +14,6 @@ export default function Home() {
   return (
       <div className="font-[family-name:var(--font-jb-mono)]">
         <main>
-          <Navbar/>
           <Search/>
         </main>
       </div>

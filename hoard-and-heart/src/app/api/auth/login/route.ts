@@ -36,16 +36,14 @@ export async function POST(request:NextRequest) {
             success: true,
         })
         response.cookies.set("token", token, {
-            httpOnly:true,
-            path:"/"
+            //httpOnly:true,
+            path:"/",
+            sameSite:"lax",
         })
 
-
+        //console.log(`token: ${token}`)
 
         return response
-
-        
-
     }catch(error){
         return new NextResponse(error.message,{
             status:500
